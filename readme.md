@@ -11,3 +11,7 @@
 ## Test it
 
 	`yarn test`
+
+## Build it
+
+	`yarn build`
