@@ -17,6 +17,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.5.0",
+    "msgpack5": "^4.2.0",
     "rollup": "^0.64.1",
     "rollup-plugin-babel": "^3.0.7"
   },
