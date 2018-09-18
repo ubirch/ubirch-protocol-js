@@ -1,48 +1,64 @@
 {
-  "name": "ubirch-protocol-js",
-  "version": "1.0.0",
-  "description": "This is an implementation of the ubirch-protocol for JavaScript. Please see ubirch-protocol for details.",
-  "main": "dist/ubirch-protocol.js",
-  "module": "dist/ubirch-protocol.es.js",
-  "dependencies": {
-    "npm": "^6.3.0",
-    "tweetnacl": "^1.0.0",
-    "tweetnacl-util": "^0.15.0"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-jest": "^23.4.2",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "jest": "^23.5.0",
-    "msgpack5": "^4.2.0",
-    "rollup": "^0.64.1",
-    "rollup-plugin-babel": "^3.0.7"
-  },
-  "scripts": {
-    "test": "jest",
-    "build": "rollup -c"
-  },
-  "jest": {
-    "verbose": true
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ubirch/ubirch-protocol-js.git"
-  },
-  "keywords": [
-    "nacl",
-    "ed25519",
-    "curve25519",
-    "ubirch",
-    "protocol"
-  ],
-  "author": "Annabel Church",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/ubirch/ubirch-protocol-js/issues"
-  },
-  "homepage": "https://github.com/ubirch/ubirch-protocol-js#readme"
+    "name": "ubirch-protocol-js",
+    "version": "1.0.0",
+    "description": "This is an implementation of the ubirch-protocol for JavaScript. Please see ubirch-protocol for details.",
+    "main": "dist/ubirch-protocol.js",
+    "module": "dist/ubirch-protocol.es.js",
+    "files": [
+        "dist",
+        "lib"
+    ],
+    "scripts": {
+        "test": "jest",
+        "test-dev": "yarn eslint:tidy & jest",
+        "build": "yarn roll",
+        "roll": "rollup -c",
+        "lib": "BABEL_ENV=es babel src -d lib",
+        "eslint:tidy": "eslint src/ --fix & eslint test/ --fix"
+    },
+    "dependencies": {
+        "@stablelib/base64": "^0.7.2",
+        "@stablelib/hex": "^0.5.0",
+        "@stablelib/utf8": "^0.10.1",
+        "msgpack-lite": "^0.1.26",
+        "npm": "^6.3.0",
+        "tweetnacl": "^1.0.0",
+        "uuid-parse": "^1.0.0"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-eslint": "^8.2.6",
+        "babel-jest": "^23.4.2",
+        "babel-plugin-external-helpers": "^6.22.0",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "eslint": "^5.4.0",
+        "eslint-config-prettier": "^3.0.1",
+        "eslint-plugin-prettier": "^2.6.2",
+        "jest": "^23.5.0",
+        "msgpack5": "^4.2.0",
+        "rollup": "^0.64.1",
+        "rollup-plugin-babel": "^3.0.7"
+    },
+    "jest": {
+        "verbose": true
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ubirch/ubirch-protocol-js.git"
+    },
+    "keywords": [
+        "nacl",
+        "ed25519",
+        "curve25519",
+        "ubirch",
+        "protocol"
+    ],
+    "author": "Annabel Church",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/ubirch/ubirch-protocol-js/issues"
+    },
+    "homepage": "https://github.com/ubirch/ubirch-protocol-js#readme"
 }
