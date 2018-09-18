@@ -19,7 +19,7 @@ describe('the ubirch-protocol can sign and save signatures', () => {
                                 
         const keys = sign.keyPair();
         console.log("keylenght", hexDecode(TEST_PRIV).length)
-        const uBirchProtocol = protocol.createProtocol(sign, sign.detached.verify, hexDecode(TEST_PRIV));
+        const uBirchProtocol = protocol.createProtocol(sign.detached, sign.detached.verify, hexDecode(TEST_PRIV));
         const message = uBirchProtocol.messagedSigned(TEST_UUID, 0xEF, 1); 
         // create stub methods to pass in
         expect(hexEncode(message)).toEqual(EXPECTED_SIGNED);               

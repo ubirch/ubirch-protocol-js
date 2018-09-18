@@ -1,5 +1,6 @@
 import * as constants from "./config/constants";
 
+
 import { box, randomBytes, hash } from "tweetnacl";
 import {encode as base64Encode, decode as base64Decode} from "@stablelib/base64";
 import {encode as utf8Encode, decode as utf8Decode} from "@stablelib/utf8";
@@ -22,7 +23,7 @@ const createProtocol = function(sign, verify, secret){
       
     const messagedSigned = function (uuid, type, payload){
        
-        let uuidBytes = uuidParse.parse(uuid);
+        let uuidBytes = new Buffer(uuidParse.parse(uuid));
         console.log(typeof uuidBytes)
         console.log(hexEncode(msgpack.encode(uuidBytes)));
         let newMessage = [
@@ -39,15 +40,15 @@ const createProtocol = function(sign, verify, secret){
         console.log(hexEncode(encodedMessage))
         
         // create a fixed size sha512 hash
-        let sha512digest = hash(encodedMessage);
+        let sha512digest = hash(new Uint8Array(encodedMessage));
         // sign this new message
         //console.log(sha512digest)
          // temporarily put key here
         // should look up key for uuid
-        let signature = sign(encodedMessage, secret);
+        let signature = sign(new Uint8Array(encodedMessage), secret);
        // console.log(encodedMessage)
     
-        var result = _appendBuffer(encodedMessage, signature);
+        var result = Buffer.concat([encodedMessage, msgpack.encode(new Buffer(signature))]);
         //console.log(encodedMessage)
         //console.log("--------------------")
         // console.log(result)
