@@ -8,9 +8,13 @@
 2. Install packages listed in package.json
 	`yarn install`
 
-## Test it
+## Test it (also Lints)
 
 	`yarn test`
+
+## Check your JS and fix it
+
+	`yarn lint`
 
 ## Build it
 

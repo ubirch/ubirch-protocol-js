@@ -4,6 +4,7 @@
     "description": "This is an implementation of the ubirch-protocol for JavaScript. Please see ubirch-protocol for details.",
     "main": "dist/ubirch-protocol.js",
     "module": "dist/ubirch-protocol.es.js",
+    "browser": "dist/ubirch-protocol.umd.js",
     "files": [
         "dist",
         "lib"
@@ -20,6 +21,8 @@
         "@stablelib/base64": "^0.7.2",
         "@stablelib/hex": "^0.5.0",
         "@stablelib/utf8": "^0.10.1",
+        "bops": "^1.0.0",
+        "debug": "^4.0.1",
         "msgpack-lite": "^0.1.26",
         "npm": "^6.3.0",
         "tweetnacl": "^1.0.0",
