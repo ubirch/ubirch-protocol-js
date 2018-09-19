@@ -11,3 +11,6 @@ dist/
 
 # Mac
 .DS_Store
+
+# VS Code preferences
+.vscode/
