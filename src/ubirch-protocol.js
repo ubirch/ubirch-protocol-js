@@ -8,26 +8,33 @@ import uuidParse from 'uuid-parse';
 import * as constants from "./config/constants";
 import bops from "bops"; // Buffer in the browser
 
-const createProtocol = function(sign, verify, secret){
-    const _serialize = () => {
+const createProtocol = (sign, signmsg, verify, secret, pkey) => {
+    const _unserialize = (item) => {
+      
+        return msgpack.decode(item);
+    }
+    const _serialize = (item) => {
+        return msgpack.encode(item);
+    }
 
+    const _verify = (uuid, message, signature) => {
+        verify(new Uint8Array(message), new Uint8Array(signature), pkey)
+        return false;
     }
 
     const _sign = (uuid, message) => {
-       
-        // serialize with MessagePack returns ArrayBuffer -> uint8Array
         // remove the last element, which will become the new signature
-        let encoded = new Uint8Array(msgpack.encode(message).slice(0,-1));
-
-        // returns only signature, and not the signed message
-        let signature = sign(encoded, secret);
+        const encoded = new Uint8Array(_serialize(message).slice(0,-1));
+        const signature = sign(encoded, secret); // hashes and signs encoded message
+        const sigBuffer = bops.from(signature);
+        // add back new signature
+        const serializedSig = bops.join([encoded, _serialize(sigBuffer)]);
+        // console.log(serialized)
         
-        let serialized = bops.join([encoded, msgpack.encode(bops.from(signature))]);
-
-        return serialized;
+        return serializedSig;
     }
       
-    const messagedSigned = function (uuid, type, payload){
+    const messageSign = (uuid, type, payload) => {
         /***
         Create a new signed ubirch-protocol message.
             :param uuid: the uuid of the device that sends the message, part of the envelope
@@ -49,15 +56,41 @@ const createProtocol = function(sign, verify, secret){
         ]
 
         // create serialized messge
-        return _sign(uuid, message);
+        return  _sign(uuid, message)
     }
 
-    const messageVerify = function (){
+    const messageVerify = (message) => {
+        /***
+            Verify the integrity of the message and decode the contents.
+            Throws an exception if the message is not verifiable.
+            :param message: the msgpack encoded message
+            :return: the decoded message
+        */
+        let unpacked = _unserialize(message);
+        console.log(unpacked)
+        // console.log(message, bops.from(message), unpacked. typeof )
+        // console.log("decoded", msgpack.decode(bops.from(message)));
+        // console.log(hexEncode(bops.from(message)))
+        let uuid = uuidParse.unparse(unpacked[1]);
 
+        let signature = "";
+        if(unpacked[0] == constants.SIGNED){
+            // message is signed but does is not chained
+            signature = unpacked[4]
+        } else {
+            // message includes signature of previous signed message
+            signature = unpacked[5]
+        }
+        // last 64 bytes of the message / 67 bytes hashed with SHA512 is the signature
+        var isVerified = _verify(uuid, message.slice(0,-67), signature);
+        
+        console.log(isVerified);
+
+        return unpacked
     }
 
     return {
-        messagedSigned,
+        messageSign,
         messageVerify
     };
 }
