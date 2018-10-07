@@ -1,19 +1,18 @@
 
-import { hash } from "tweetnacl";
-import {encode as base64Encode, decode as base64Decode} from "@stablelib/base64";
-import {encode as utf8Encode, decode as utf8Decode} from "@stablelib/utf8";
 import {encode as hexEncode, decode as hexDecode} from "@stablelib/hex";
 import msgpack from "msgpack-lite";
 import uuidParse from 'uuid-parse';
 import * as constants from "./config/constants";
-import bops from "bops"; // Buffer in the browser
 
 const createProtocol = (sign, signmsg, verify, secret, pkey) => {
+    const _signatures = {};
+
     const _unserialize = (item) => {
-      
         return msgpack.decode(item);
     }
+    
     const _serialize = (item) => {
+        console.log(hexEncode(msgpack.encode(item)))
         return msgpack.encode(item);
     }
 
@@ -26,12 +25,12 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
         // remove the last element, which will become the new signature
         const encoded = new Uint8Array(_serialize(message).slice(0,-1));
         const signature = sign(encoded, secret); // hashes and signs encoded message
-        const sigBuffer = bops.from(signature);
+        const sigBuffer = Buffer.from(signature);
         // add back new signature
-        const serializedSig = bops.join([encoded, _serialize(sigBuffer)]);
+        const serializedSig = Buffer.join([encoded, _serialize(sigBuffer)]);
         // console.log(serialized)
         
-        return serializedSig;
+        return new Uint8Array(serializedSig);
     }
       
     const messageSign = (uuid, type, payload) => {
@@ -43,7 +42,7 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
             :return: the encoded and signed message
         */
         // console.log(uuidParse.parse(uuid))
-        let uuidBytes = bops.from(uuidParse.parse(uuid));
+        let uuidBytes = Buffer.from(uuidParse.parse(uuid));
         // console.log(hexEncode(msgpack.encode(uuidBytes)));
 
         let message = [
@@ -59,6 +58,26 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
         return  _sign(uuid, message)
     }
 
+    const messageSignChained = (uuid, type, payload) => {
+       
+        const uuidBytes = Buffer.from(uuidParse.parse(uuid));
+        const lastSignature = Buffer.from(new Uint8Array(64).fill(0))
+        // const lastSignature = '00'
+//  b'\0' * 64bob
+        let message = [
+            constants.CHAINED, // version
+            uuidBytes,
+            lastSignature,
+            type,
+            payload,
+            0 // signature placeholder
+        ]
+
+        // create serialized messge
+        return  _sign(uuid, message)
+    }
+
+
     const messageVerify = (message) => {
         /***
             Verify the integrity of the message and decode the contents.
@@ -67,7 +86,7 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
             :return: the decoded message
         */
         let unpacked = _unserialize(message);
-        console.log(unpacked)
+        // console.log(message, unpacked)
         // console.log(message, bops.from(message), unpacked. typeof )
         // console.log("decoded", msgpack.decode(bops.from(message)));
         // console.log(hexEncode(bops.from(message)))
@@ -84,13 +103,14 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
         // last 64 bytes of the message / 67 bytes hashed with SHA512 is the signature
         var isVerified = _verify(uuid, message.slice(0,-67), signature);
         
-        console.log(isVerified);
+        // console.log(isVerified);
 
         return unpacked
     }
 
     return {
         messageSign,
+        messageSignChained,
         messageVerify
     };
 }

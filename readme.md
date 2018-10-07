@@ -19,3 +19,10 @@
 ## Build it
 
 	`yarn build`
+
+
+ssl == tls
+client auth
+store keys in the web storage 
+rollup build for browser
+

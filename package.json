@@ -18,13 +18,12 @@
         "eslint:tidy": "eslint src/ --fix & eslint test/ --fix"
     },
     "dependencies": {
-        "@stablelib/base64": "^0.7.2",
         "@stablelib/hex": "^0.5.0",
-        "@stablelib/utf8": "^0.10.1",
-        "bops": "^1.0.0",
         "debug": "^4.0.1",
         "msgpack-lite": "^0.1.26",
         "npm": "^6.3.0",
+        "rollup-plugin-commonjs": "^9.1.8",
+        "rollup-plugin-node-globals": "^1.4.0",
         "tweetnacl": "^1.0.0",
         "uuid-parse": "^1.0.0"
     },
@@ -40,9 +39,10 @@
         "eslint-config-prettier": "^3.0.1",
         "eslint-plugin-prettier": "^2.6.2",
         "jest": "^23.5.0",
-        "msgpack5": "^4.2.0",
         "rollup": "^0.64.1",
-        "rollup-plugin-babel": "^3.0.7"
+        "rollup-plugin-babel": "^3.0.7",
+        "rollup-plugin-node-builtins": "^2.1.2",
+        "rollup-plugin-node-resolve": "^3.4.0"
     },
     "jest": {
         "verbose": true
