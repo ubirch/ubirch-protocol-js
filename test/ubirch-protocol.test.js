@@ -9,13 +9,15 @@ describe('the ubirch-protocol can sign and save signatures', () => {
     const TEST_PRIV = 'a6abdc5466e0ab864285ba925452d02866638a8acb5ebdc065d2506661301417';
     const TEST_PUBL = 'b12a906051f102881bbb487ee8264aa05d8d0fcc51218f2a47f562ceb9b0d068';
     const TEST_UUID = '6eac4d0b-16e6-4508-8c46-22e7451ea5a1'; // hex
-    const key = hexDecode(TEST_PUBL + TEST_PRIV);
+    // const key = hexDecode(TEST_PUBL + TEST_PRIV);
     
+    const key = sign.keyPair.fromSeed(hexDecode(TEST_PRIV))
+
     // new encoding
-    const expectedSigned = hexDecode('9512C4106EAC4D0B16E645088C4622E7451EA5A1CCEF01C440C9A961850F0707A14EFF9E5D8F474FED7673A6C047801A08CCD03EE6E31A02C361850669A990C86D0F7F1627C8202B1888C8921645C5515D5BAFD1172136620F');
+    const expectedSigned = hexDecode('9512b06eac4d0b16e645088c4622e7451ea5a1ccef01da0040578a5b22ceb3e1d0d0f8947c098010133b44d3b1d2ab398758ffed11507b607ed37dbbe006f645f0ed0fdbeb1b48bb50fd71d832340ce024d5a0e21c0ebc8e0e');
     // old msgpack encoding
     const expectedChained = [
-        hexDecode("961306eabc4d0b16e645088c4622e7451ea5a1da004000000000000000000000" +
+        hexDecode("9613b06eac4d0b16e645088c4622e7451ea5a1da004000000000000000000000" +
         "0000000000000000000000000000000000000000000000000000000000000000" +
         "00000000000000000000000000000000000000000000ccee01da00408e58872a" +
         "8a3baa13ec28dd9cf22957f28fb4d2e7e048f2d3f61fe2c7f45f3c46d4b4f95a" +
@@ -43,10 +45,12 @@ describe('the ubirch-protocol can sign and save signatures', () => {
     "8a3baa13ec28dd9cf22957f28fb4d2e7e048f2d3f61fe2c7f45f3c46d4b4f95a" +
     "eae3dacf0359f15617492e82fb21635b8ff6a420dc61dd3a16f85c09")
 
-    const uBirchProtocol = protocol.createProtocol(sign.detached, sign, sign.detached.verify, key, hexDecode(TEST_PUBL));
+    const uBirchProtocol = protocol.createProtocol(sign.detached, sign, sign.detached.verify, key.secretKey, hexDecode(TEST_PUBL));
         
     test('Given a message, it message can be signed', () => {           
         const message = uBirchProtocol.messageSign(TEST_UUID, 0xEF, 1); 
+        // console.log(hexEncode(expectedSigned))
+        // console.log(hexEncode(message))
         expect(message).toEqual(expectedSigned);               
     });
 
@@ -66,9 +70,9 @@ describe('the ubirch-protocol can sign and save signatures', () => {
         // "8a3baa13ec28dd9cf22957f28fb4d2e7e048f2d3f61fe2c7f45f3c46d4b4f95a" +
         // "eae3dacf0359f15617492e82fb21635b8ff6a420dc61dd3a16f85c09")))
         console.log(hexEncode(message))
-        console.log(hexEncode(manualstuff))
+        console.log(hexEncode(expectedChained[0]))
         // console.log(hexEncode(expectedChained[0]), hexEncode(message))
-        expect(message).toEqual(manualstuff);
+        expect(message).toEqual(expectedChained[0]);
         
         // expect(uuidParse.unparse(unpacked[1])).toEqual(TEST_UUID);
 

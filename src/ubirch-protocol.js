@@ -4,16 +4,19 @@ import msgpack from "msgpack-lite";
 import uuidParse from 'uuid-parse';
 import * as constants from "./config/constants";
 
+import { hash } from "tweetnacl";
+
 const createProtocol = (sign, signmsg, verify, secret, pkey) => {
     const _signatures = {};
+    var options = {codec: msgpack.createCodec({useraw: true})};
 
     const _unserialize = (item) => {
-        return msgpack.decode(item);
+        return msgpack.decode(item, options);
     }
     
     const _serialize = (item) => {
-        // console.log(hexEncode(msgpack.encode(item)))
-        return msgpack.encode(item);
+        console.log(options)
+        return msgpack.encode(item, options);
     }
 
     const _verify = (uuid, message, signature) => {
@@ -24,7 +27,11 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
     const _sign = (uuid, message) => {
         // remove the last element, which will become the new signature
         const encoded = new Uint8Array(_serialize(message).slice(0,-1));
-        const signature = sign(encoded, secret); // hashes and signs encoded message
+        const hashed = hash(encoded);
+        console.log(hexEncode(hashed))
+        console.log(hexEncode(secret))
+        const signature = sign(hashed, secret); // hashes and signs encoded message
+        console.log(hexEncode(signature))
         const sigBuffer = Buffer.from(signature);
         // add back new signature
         const serializedSig = Buffer.concat([encoded, _serialize(sigBuffer)]);
@@ -43,6 +50,7 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
         */
         // console.log(uuidParse.parse(uuid))
         let uuidBytes = Buffer.from(uuidParse.parse(uuid));
+        console.log(uuidBytes.byteLength)
         // console.log(hexEncode(msgpack.encode(uuidBytes)));
 
         let message = [
@@ -61,9 +69,9 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
     const messageSignChained = (uuid, type, payload) => {
        
         const uuidBytes = Buffer.from(uuidParse.parse(uuid));
+        console.log(uuidBytes.byteLength)
         const lastSignature = Buffer.from(new Uint8Array(64).fill(0))
-        // const lastSignature = '00'
-//  b'\0' * 64bob
+
         let message = [
             constants.CHAINED, // version
             uuidBytes,
