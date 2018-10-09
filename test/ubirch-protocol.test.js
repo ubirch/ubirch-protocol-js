@@ -37,7 +37,7 @@ describe('the ubirch-protocol can sign and save signatures', () => {
         "d0d0f8947c098010133b44d3b1d2ab398758ffed11507b607ed37dbbe006f645" +
         "f0ed0fdbeb1b48bb50fd71d832340ce024d5a0e21c0ebc8e0e");
 
-    const manualfuckery =  hexDecode("9613c4106eac4d0b16e645088c4622e7451ea5a1c44000000000000000000000" +
+    const manualstuff =  hexDecode("9613c4106eac4d0b16e645088c4622e7451ea5a1c44000000000000000000000" +
     "0000000000000000000000000000000000000000000000000000000000000000" +
     "00000000000000000000000000000000000000000000ccee01c4408e58872a" +
     "8a3baa13ec28dd9cf22957f28fb4d2e7e048f2d3f61fe2c7f45f3c46d4b4f95a" +
@@ -66,9 +66,9 @@ describe('the ubirch-protocol can sign and save signatures', () => {
         // "8a3baa13ec28dd9cf22957f28fb4d2e7e048f2d3f61fe2c7f45f3c46d4b4f95a" +
         // "eae3dacf0359f15617492e82fb21635b8ff6a420dc61dd3a16f85c09")))
         console.log(hexEncode(message))
-        console.log(hexEncode(manualfuckery))
+        console.log(hexEncode(manualstuff))
         // console.log(hexEncode(expectedChained[0]), hexEncode(message))
-        expect(message).toEqual(manualfuckery);
+        expect(message).toEqual(manualstuff);
         
         // expect(uuidParse.unparse(unpacked[1])).toEqual(TEST_UUID);
 

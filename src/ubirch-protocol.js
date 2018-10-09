@@ -12,7 +12,7 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
     }
     
     const _serialize = (item) => {
-        console.log(hexEncode(msgpack.encode(item)))
+        // console.log(hexEncode(msgpack.encode(item)))
         return msgpack.encode(item);
     }
 
