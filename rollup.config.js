@@ -11,12 +11,11 @@ export default {
   input: 'src/ubirch-protocol.js',
   
   plugins: [
-    babel({ plugins: ['external-helpers'] }), 
+    resolve({browser: true}),
     commonJS({
       include: 'node_modules/**'
     }),
- 
-    resolve({browser: true}),
+    babel({ plugins: ['external-helpers'] }), 
     gl()
   ],
   output: [
