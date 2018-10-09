@@ -27,7 +27,7 @@ const createProtocol = (sign, signmsg, verify, secret, pkey) => {
         const signature = sign(encoded, secret); // hashes and signs encoded message
         const sigBuffer = Buffer.from(signature);
         // add back new signature
-        const serializedSig = Buffer.join([encoded, _serialize(sigBuffer)]);
+        const serializedSig = Buffer.concat([encoded, _serialize(sigBuffer)]);
         // console.log(serialized)
         
         return new Uint8Array(serializedSig);
