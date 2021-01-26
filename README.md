@@ -8,8 +8,6 @@
 
 ## Install
 
-`npm install webpack webpack-cli --save-dev`
-
 `npm install`
 
 ## Build
