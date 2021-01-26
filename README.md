@@ -9,10 +9,10 @@
 ##Add Verification Object to DOM
 
 ###Normal
-`browserify main-browser.js -o build/main-browser-bundle.js`
+`browserify main.js -o build/main-browser-bundle.js`
 
 ###Uglified
-`browserify -p tinyify main-browser.js -o build/main-browser-bundle.min.js`
+`browserify -p tinyify main.js -o build/main-browser-bundle.min.js`
 
 ###Example
 

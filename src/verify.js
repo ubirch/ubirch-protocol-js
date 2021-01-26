@@ -4,6 +4,7 @@ const {decode} = require("@msgpack/msgpack");
 const EC = require("elliptic").ec;
 const crypto = require("crypto")
 const uuidParse = require('uuid');
+const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
 
 const getKey = (compressedKeyInBase64) => {
     const ec = new EC('p256');

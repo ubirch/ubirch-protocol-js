@@ -8,7 +8,7 @@ const getKeys = async (stage, uuid) => {
         .then(response => response.json())
         .catch((reason) => {
             console.error(reason);
-        })
+        });
 }
 
 const verifyFromKeyService = async (stage, uuid, uupBase64) => {
