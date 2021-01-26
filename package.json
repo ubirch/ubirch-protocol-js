@@ -1,0 +1,18 @@
+{
+  "name": "ubirch-verifier-js",
+  "version": "1.0.0",
+  "description": "A UPP verifier for ECDSA keys",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@msgpack/msgpack": "^2.3.0",
+    "elliptic": "^6.5.3"
+  },
+  "author": "Carlos Sanchez",
+  "license": "ISC",
+  "devDependencies": {
+    "tinyify": "^3.0.0"
+  }
+}
