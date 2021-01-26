@@ -51,11 +51,15 @@ const billOfMaterials = (compressedKeyInBase64, uppInBase64) => {
     };
 }
 
-
 const verify = (compressedKeyInBase64, uppInBase64) => {
     const bom = billOfMaterials(compressedKeyInBase64, uppInBase64)
     return bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints)
 }
 
-module.exports = {getKey, upp, getSignedAndSignature, billOfMaterials, verify};
+const verifyWithUUID = (uuid, compressedKeyInBase64, uppInBase64) => {
+    const bom = billOfMaterials(compressedKeyInBase64, uppInBase64)
+    return bom.uuid === uuid && bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints)
+}
+
+module.exports = {tools: {getKey, upp, getSignedAndSignature, billOfMaterials}, verify, verifyWithUUID};
 
