@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.3.0",
-    "elliptic": "^6.5.3"
+    "elliptic": "^6.5.3",
+    "uuid": "^8.3.2"
   },
   "author": "Carlos Sanchez",
   "license": "ISC",

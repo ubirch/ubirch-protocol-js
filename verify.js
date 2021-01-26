@@ -3,6 +3,8 @@
 const {decode} = require("@msgpack/msgpack");
 const EC = require("elliptic").ec;
 const crypto = require("crypto")
+const uuidParse = require('uuid');
+
 
 const getKey = (compressedKeyInBase64) => {
     const ec = new EC('p256');
@@ -36,13 +38,24 @@ const getSignedAndSignature = (upp) => {
     }
 }
 
-const verify = (compressedKeyInBase64, uppInBase64) => {
+const billOfMaterials = (compressedKeyInBase64, uppInBase64) => {
     const pk = getKey(compressedKeyInBase64)
-    const decoded = upp(uppInBase64)
-    const sBom = getSignedAndSignature(decoded)
+    const uppBom = upp(uppInBase64)
+    const sBom = getSignedAndSignature(uppBom)
 
-    return pk.verify(sBom.signedHash, sBom.signaturePoints)
+    return {
+        uuid: uuidParse.stringify(uppBom.decoded[1]),
+        pk: pk,
+        decoded: uppBom,
+        sBom: sBom
+    };
 }
 
-module.exports = {getKey, upp, getSignedAndSignature, verify};
+
+const verify = (compressedKeyInBase64, uppInBase64) => {
+    const bom = billOfMaterials(compressedKeyInBase64, uppInBase64)
+    return bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints)
+}
+
+module.exports = {getKey, upp, getSignedAndSignature, billOfMaterials, verify};
 
