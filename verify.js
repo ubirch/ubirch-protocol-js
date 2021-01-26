@@ -5,7 +5,6 @@ const EC = require("elliptic").ec;
 const crypto = require("crypto")
 const uuidParse = require('uuid');
 
-
 const getKey = (compressedKeyInBase64) => {
     const ec = new EC('p256');
     const pubKeyBuffer = Buffer.from(compressedKeyInBase64, 'base64');
@@ -35,7 +34,7 @@ const getSignedAndSignature = (upp) => {
         signedHash: signeHash,
         signature: signatureBuffer,
         signaturePoints: signaturePoints
-    }
+    };
 }
 
 const billOfMaterials = (compressedKeyInBase64, uppInBase64) => {
@@ -52,13 +51,13 @@ const billOfMaterials = (compressedKeyInBase64, uppInBase64) => {
 }
 
 const verify = (compressedKeyInBase64, uppInBase64) => {
-    const bom = billOfMaterials(compressedKeyInBase64, uppInBase64)
-    return bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints)
+    const bom = billOfMaterials(compressedKeyInBase64, uppInBase64);
+    return bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints);
 }
 
 const verifyWithUUID = (uuid, compressedKeyInBase64, uppInBase64) => {
-    const bom = billOfMaterials(compressedKeyInBase64, uppInBase64)
-    return bom.uuid === uuid && bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints)
+    const bom = billOfMaterials(compressedKeyInBase64, uppInBase64);
+    return bom.uuid === uuid && bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints);
 }
 
 module.exports = {tools: {getKey, upp, getSignedAndSignature, billOfMaterials}, verify, verifyWithUUID};
