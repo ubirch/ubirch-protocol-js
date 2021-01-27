@@ -7,14 +7,30 @@ const uuidParse = require('uuid');
 const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
 
 const getKey = (compressedKeyInBase64) => {
-    const ec = new EC('p256');
     const pubKeyBuffer = Buffer.from(compressedKeyInBase64, 'base64');
+
+    if(pubKeyBuffer.length !== 64) {
+        throw new Error("Invalid ECDSA Key Compressed");
+    }
+    // We add 0x04 to make it compressed compatible
     const pubKeyXY = Buffer.concat([Buffer.from([0x04]), pubKeyBuffer]);
+
+    const ec = new EC('p256');
     return ec.keyFromPublic(pubKeyXY);
+}
+
+const uppLengthCheck = (decodedUPP) => {
+    if(decodedUPP.length <= 4 || decodedUPP.length >= 7) {
+        throw new Error("Invalid UPP");
+    }
 }
 
 const upp = (uppInBase64) => {
     const buff = Buffer.from(uppInBase64, 'base64');
+    const parts = decode(buff);
+
+    uppLengthCheck(parts);
+
     return {
         bytes: buff,
         decoded: decode(buff)
@@ -22,6 +38,9 @@ const upp = (uppInBase64) => {
 }
 
 const getSignedAndSignature = (upp) => {
+
+    uppLengthCheck(upp.decoded);
+
     const signed = upp.bytes.subarray(0, upp.bytes.length - 66)
     const signeHash = crypto.createHash('sha256').update(signed).digest()
     const signatureBuffer = upp.decoded[5]
@@ -36,6 +55,7 @@ const getSignedAndSignature = (upp) => {
         signature: signatureBuffer,
         signaturePoints: signaturePoints
     };
+
 }
 
 const billOfMaterials = (compressedKeyInBase64, uppInBase64) => {

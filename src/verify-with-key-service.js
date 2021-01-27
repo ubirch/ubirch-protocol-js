@@ -4,6 +4,11 @@ const verify = require("./verify");
 const fetch = require('node-fetch');
 
 const getKeys = async (stage, uuid) => {
+
+    if(uuid === ""){
+        throw new Error("UUID can't be empty.")
+    }
+
     const url = "https://identity." + stage + ".ubirch.com/api/keyService/v1/pubkey/current/hardwareId/" + uuid;
     return await fetch(url)
         .then(response => response.json())
