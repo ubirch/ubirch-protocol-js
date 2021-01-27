@@ -14,6 +14,13 @@ The verification can be used directly on the browser or in a node application.
 5. [Verify With UUID Check](#verifywithuuid)
 6. [Verify With Key Service](#verifyfromkeyservice)
 
+
+# Installing from NPM.
+
+`npm i @ubirch/ubirch-protocol-verifier`
+
+# Building from sources.
+
 ## Install
 
 `npm install`
