@@ -1,10 +1,9 @@
 "use strict";
 
-const verify = require("./verify");
-const {verifyFromKeyService} = require("./verify-with-key-service");
+const upp = require('./upp')
 
 window.UPP = {};
-window.UPP.Verification = verify;
+window.UPP.Verification = upp.verify;
 window.UPP.Verification.verifyFromKeyService = {};
-window.UPP.Verification.verifyFromKeyService = verifyFromKeyService;
+window.UPP.Verification.verifyFromKeyService = upp.verifyFromKeyService;
 

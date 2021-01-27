@@ -1,8 +1,8 @@
 {
-  "name": "ubirch-verifier-js",
-  "version": "1.0.0",
+  "name": "@ubirch/ubirch-protocol-verifier",
+  "version": "0.0.1",
   "description": "A Ubirch Protocol Verifier for ECDSA keys",
-  "main": "main.js",
+  "main": "upp.js",
   "scripts": {
     "test:mocha": "mocha tests",
     "build": "webpack"
@@ -19,7 +19,7 @@
     "uuid": "^8.3.2"
   },
   "author": "Carlos Sanchez",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "devDependencies": {
     "webpack": "^5.17.0",
     "webpack-cli": "^4.4.0"
