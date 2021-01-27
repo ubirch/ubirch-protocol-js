@@ -3,41 +3,44 @@
 This library offers basic functionality to support Ubirch Protocol Verification for ECDSA Keys. It has
 three fundamental functions: _verify_, _verify with UUID_ and _verify with Key service_.
 
-The verification can be used directly on the browser or in a node application.
+1. [Description](#description)
+1. [Install from NPM](#installing-from-npm)
+2. [Building from Sources](#building-from-sources)
+3. [Examples](#examples)
+    1. [Verify](#verify)
+    2. [Verify With UUID Check](#verifywithuuid)
+    3. [Verify With Key Service](#verifyfromkeyservice)
 
-`NOTE`: `The examples might change as soon as we add the lib to a package registry.`
+## Interface Description
 
-1. [Install](#install)
-2. [Run Tests](#run-tests)
-3. [Build](#build)   
-4. [Verify](#verify)
-5. [Verify With UUID Check](#verifywithuuid)
-6. [Verify With Key Service](#verifyfromkeyservice)
-
-
-# Installing from NPM.
+1. **_verify_**: The verification can be used directly on the browser or in a node application.
+2. **_verify with UUID_**: This function verifies that the UPP was signed by the provided ECDSA Pubkey && that the UPP's device id/identity id matches the provided UUID.
+3. **_verify with Key service_**: This function retrieves the list of available public keys for a device. This list is obtained from the Ubirch Identity Service. Then UPP is verified against this list of pubkeys.
+This function verifies that the UPP was signed by the provided ECDSA Pubkey.
+    
+## Installing from NPM.
 
 `npm i @ubirch/ubirch-protocol-verifier`
 
-# Building from sources.
+## Building from sources.
 
-## Install
 
 `npm install`
 
-## Run Tests
-
 `npm run test:mocha`
 
-## Build
+`npm run build` This will bundle a js file for the browser.
 
-`npm run build`
+## Examples
 
-## Verify
+Note: The manner we use in this example this lib is not the only one and it depends on the project you are working with.
+That means that the verification object added to the Window object can be ignored.
+
+### Verify
 
 This function verifies that the UPP was signed by the provided ECDSA Pubkey.
 
-### Example on Browser
+#### Example on Browser
 
 ```html
 <!DOCTYPE html>
@@ -50,7 +53,7 @@ This function verifies that the UPP was signed by the provided ECDSA Pubkey.
 <p id="upp"></p>
 <p id="res"></p>
 
-<script src="../dist/main.js"></script>
+<script src="../dist/ubirch-protocol-verifier.min.js"></script>
 <script>
     const pubKey = "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==";
     const upp = "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==";
@@ -65,10 +68,12 @@ This function verifies that the UPP was signed by the provided ECDSA Pubkey.
 
 ```
 
-### Example on Node APP
+#### Example on Node APP
 
 ```js
 const verify = require("../src/verify");
+// Use this if installed from NPM
+// const verify = require("@ubirch/ubirch-protocol-verifier"); 
 
 const pubKey = "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==";
 const upp = "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==";
@@ -77,11 +82,11 @@ const ok = verify.verify(pubKey, upp);
 console.log(ok);
 ```
 
-## verifyWithUUID
+### verifyWithUUID
 
 This function verifies that the UPP was signed by the provided ECDSA Pubkey && that the UPP's device id/identity id matches the provided UUID.
 
-### Example
+#### Example
 
 ```html
 <!DOCTYPE html>
@@ -95,7 +100,7 @@ This function verifies that the UPP was signed by the provided ECDSA Pubkey && t
 <p id="upp"></p>
 <p id="res"></p>
 
-<script src="../dist/main.js"></script>
+<script src="../dist/ubirch-protocol-verifier.min.js"></script>
 <script>
     const uuid = '7af55a89-d9a0-4929-b5aa-1b1657b06a56';
     const pubKey = "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==";
@@ -112,10 +117,11 @@ This function verifies that the UPP was signed by the provided ECDSA Pubkey && t
 </html>
 ```
 
-### Example on Node APP
+#### Example on Node APP
 
 ```js
-const verify = require("../src/verify");
+// Use this if installed from NPM
+// const verify = require("@ubirch/ubirch-protocol-verifier");
 
 const uuid = '7af55a89-d9a0-4929-b5aa-1b1657b06a56';
 const pubKey = "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==";
@@ -126,12 +132,16 @@ const ok = verify.verifyWithUUID(uuid, pubKey, upp);
 console.log(ok);
 ```
 
-## verifyFromKeyService
+### verifyFromKeyService
 
 This function retrieves the list of available public keys for a device. This list is obtained from the Ubirch Identity Service. Then UPP is verified
 against this list of pubkeys.
 
-### Example
+This function verifies that the UPP was signed by the provided ECDSA Pubkey.
+
+
+
+#### Example
 
 ```html
 <!DOCTYPE html>
@@ -144,7 +154,7 @@ against this list of pubkeys.
         <p>UPP: <span id="upp"></span></p>
         <p>Validation:<span id="res"></span></p>
 
-        <script src="../dist/main.js"></script>
+        <script src="../dist/ubirch-protocol-verifier.min.js"></script>
         <script>
             const stage = "prod";
             const uuid = '7af55a89-d9a0-4929-b5aa-1b1657b06a56';
@@ -159,10 +169,11 @@ against this list of pubkeys.
 </html>
 ```
 
-### Example on Node APP
+#### Example on Node APP
 
 ```js
-const verify = require("../src/verify-with-key-service");
+// Use this if installed from NPM
+// const verify = require("@ubirch/ubirch-protocol-verifier");
 
 const stage = "prod";
 const uuid = '7af55a89-d9a0-4929-b5aa-1b1657b06a56';

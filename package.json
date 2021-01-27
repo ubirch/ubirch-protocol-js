@@ -1,8 +1,15 @@
 {
   "name": "@ubirch/ubirch-protocol-verifier",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A Ubirch Protocol Verifier for ECDSA keys",
   "main": "./src/upp.js",
+  "files": [
+    "src",
+    "tests",
+    "examples",
+    "dist/ubirch-protocol-verifier.min.js",
+    "webpack.config.js"
+  ],
   "scripts": {
     "test:mocha": "mocha tests",
     "build": "webpack"

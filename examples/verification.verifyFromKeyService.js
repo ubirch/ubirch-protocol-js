@@ -1,4 +1,6 @@
 const verify = require("../src/verify-with-key-service");
+// Use this if installed from NPM
+// const verify = require("@ubirch/ubirch-protocol-verifier");
 
 const stage = "prod";
 const uuid = '7af55a89-d9a0-4929-b5aa-1b1657b06a56';

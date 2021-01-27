@@ -2,13 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = function(env){
-
-    const STAGE = env.STAGE || 'dev';
-    const MODE = STAGE === 'prod' || STAGE === 'demo' ? 'production' : 'development';
-
     return {
-        mode: MODE,
-        entry: './src/main.js',
+        mode: "production",
+        entry: './src/upp-browser.js',
         resolve: {
             fallback: {
                 "crypto": require.resolve("crypto-browserify"),
@@ -17,8 +13,11 @@ module.exports = function(env){
             }
         },
         output: {
-            filename: 'main.js',
+            filename: 'ubirch-protocol-verifier.min.js',
             path: path.resolve(__dirname, 'dist'),
+        },
+        performance : {
+            hints : false
         },
         plugins: [
             new webpack.ProvidePlugin({

@@ -1,4 +1,6 @@
 const verify = require("../src/verify");
+// Use this if installed from NPM
+// const verify = require("@ubirch/ubirch-protocol-verifier");
 
 const uuid = '7af55a89-d9a0-4929-b5aa-1b1657b06a56';
 const pubKey = "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==";
