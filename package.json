@@ -21,8 +21,21 @@
   "author": "Carlos Sanchez",
   "license": "ISC",
   "devDependencies": {
-    "tinyify": "^3.0.0",
     "webpack": "^5.17.0",
     "webpack-cli": "^4.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ubirch/ubirch-protocol-js.git"
+  },
+  "keywords": [
+    "ubirch",
+    "verification",
+    "ecdsa",
+    "msgpack"
+  ],
+  "bugs": {
+    "url": "https://github.com/ubirch/ubirch-protocol-js/issues"
+  },
+  "homepage": "https://github.com/ubirch/ubirch-protocol-js#readme"
 }
