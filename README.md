@@ -28,6 +28,8 @@ The verification can be used directly on the browser or in a node application.
 
 ## Verify
 
+This function verifies that the UPP was signed by the provided ECDSA Pubkey.
+
 ### Example on Browser
 
 ```html
@@ -69,6 +71,8 @@ console.log(ok);
 ```
 
 ## verifyWithUUID
+
+This function verifies that the UPP was signed by the provided ECDSA Pubkey && that the UPP's device id/identity id matches the provided UUID.
 
 ### Example
 
@@ -116,6 +120,9 @@ console.log(ok);
 ```
 
 ## verifyFromKeyService
+
+This function retrieves the list of available public keys for a device. This list is obtained from the Ubirch Identity Service. Then UPP is verified
+against this list of pubkeys.
 
 ### Example
 

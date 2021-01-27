@@ -15,7 +15,9 @@ const getKeys = async (stage, uuid) => {
 const verifyFromKeyService = async (stage, uuid, uupBase64) => {
     const keys = await getKeys(stage, uuid);
     const pubKeys = keys.map(x => x.pubKeyInfo.pubKey);
-    const vers = pubKeys.map(x => verify.verifyWithUUID(uuid, x, uupBase64));
+    const vers = pubKeys
+        .map(x => verify.verifyWithUUID(uuid, x, uupBase64))
+        .reduce((a, b) => a && b);
 
     if(vers.length <= 0){
         return false;
