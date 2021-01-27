@@ -1,14 +1,22 @@
-# UPP Verifier
+# Ubirch Protocol Verifier
+
+This library offers basic functionality to support Ubirch Protocol Verification for ECDSA Keys. It has
+three fundamental functions: _verify_, _verify with UUID_ and _verify with Key service_.
 
 1. [Install](#install)
-2. [Build](#build)   
-3. [Verify](#verify)
-4. [Verify With UUID Check](#verifywithuuid)
-5. [Verify With Key Service](#verifyfromkeyservice)
+2. [Run Tests](#run-tests)
+3. [Build](#build)   
+4. [Verify](#verify)
+5. [Verify With UUID Check](#verifywithuuid)
+6. [Verify With Key Service](#verifyfromkeyservice)
 
 ## Install
 
 `npm install`
+
+## Run Tests
+
+`npm run test:mocha`
 
 ## Build
 

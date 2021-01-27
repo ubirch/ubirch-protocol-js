@@ -1,10 +1,10 @@
 {
   "name": "ubirch-verifier-js",
   "version": "1.0.0",
-  "description": "A UPP verifier for ECDSA keys",
+  "description": "A Ubirch Protocol Verifier for ECDSA keys",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:mocha": "mocha tests",
     "build": "webpack"
   },
   "dependencies": {
@@ -12,6 +12,7 @@
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "elliptic": "^6.5.3",
+    "mocha": "^8.2.1",
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
     "uuid": "^8.3.2"
