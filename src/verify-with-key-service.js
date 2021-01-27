@@ -1,6 +1,7 @@
 "use strict";
 
 const verify = require("./verify");
+const fetch = require('node-fetch');
 
 const getKeys = async (stage, uuid) => {
     const url = "https://identity." + stage + ".ubirch.com/api/keyService/v1/pubkey/current/hardwareId/" + uuid;
