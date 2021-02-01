@@ -24,6 +24,12 @@ const crypto = require("crypto");
 const uuidParse = require('uuid');
 const Buffer = require('buffer/').Buffer; // note: the trailing slash is important!
 
+const ProtocolVersion = 2
+
+const PLAIN = (ProtocolVersion << 4) | 0x01
+const SIGNED = (ProtocolVersion << 4) | 0x02
+const CHAINED = (ProtocolVersion << 4) | 0x03
+
 const getKey = (compressedKeyInBase64) => {
     const pubKeyBuffer = Buffer.from(compressedKeyInBase64, 'base64');
 
@@ -43,11 +49,23 @@ const uppLengthCheck = (decodedUPP) => {
     }
 };
 
+const uppVersionCheck = (decodedUPP) => {
+    const version = decodedUPP[0] & 0x0F;
+    switch (version) {
+        case CHAINED & 0x0F:
+        case SIGNED & 0x0F:
+            break;
+        default:
+            throw new Error("Protocol Version not supported :: " + version);
+    }
+};
+
 const upp = (uppInBase64) => {
     const buff = Buffer.from(uppInBase64, 'base64');
     const parts = decode(buff);
 
     uppLengthCheck(parts);
+    uppVersionCheck(parts);
 
     return {
         bytes: buff,
@@ -58,6 +76,7 @@ const upp = (uppInBase64) => {
 const getSignedAndSignature = (upp) => {
 
     uppLengthCheck(upp.decoded);
+    uppVersionCheck(upp.decoded);
 
     const signed = upp.bytes.subarray(0, upp.bytes.length - 66)
     const signeHash = crypto.createHash('sha256').update(signed).digest()
