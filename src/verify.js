@@ -43,7 +43,7 @@ const getSignedAndSignature = (upp) => {
 
     const signed = upp.bytes.subarray(0, upp.bytes.length - 66)
     const signeHash = crypto.createHash('sha256').update(signed).digest()
-    const signatureBuffer = upp.decoded[5]
+    const signatureBuffer = upp.decoded[upp.decoded.length - 1]
     const signaturePoints = {
         r: signatureBuffer.subarray(0, signatureBuffer.length / 2),
         s: signatureBuffer.subarray(signatureBuffer.length / 2, signatureBuffer.length)

@@ -2,8 +2,8 @@ const verify = require("../src/verify");
 // Use this if installed from NPM
 // const verify = require("@ubirch/ubirch-protocol-verifier");
 
-const pubKey = "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==";
-const upp = "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==";
+const pubKey = "9vxNdELoMlz7BnbYQMW5P5pLIFwt/90lyCxXDYYMZArcSdxdTNnJZA+D3ZsCfeWOKfKYF1UAsntHpciGJHw5wA==";
+const upp = "liPEEAUSJUETIUAgkiUAAAtc7wfEQJ3bReSUqqS20LtBVLiQTa7JQr7w/fw38RCtXNBixnnn8k/FWd+YNCbM+aQXXHlPCcyGrLlTVtLv9PYCdZ5+UzcAxCBUk+2UkhF8QFZQhKiK0ezI9RWa4Qoc5Hq3TacPIwvxYcRAMUaRx5ozZMNn7lNDqJGNpwwntrYXb//osMWA2Zc0+wRzTUvdaiqTcD2E31iR3dfsp+5N4tbyV4AqTnZcsX4wSw==";
 const ok = verify.verify(pubKey, upp);
 
 console.log(ok);
