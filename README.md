@@ -24,7 +24,6 @@ This function verifies that the UPP was signed by the provided ECDSA Pubkey.
 
 ## Building from sources.
 
-
 `npm install`
 
 `npm run test:mocha`
@@ -54,6 +53,8 @@ This function verifies that the UPP was signed by the provided ECDSA Pubkey.
 <p id="res"></p>
 
 <script src="../dist/ubirch-protocol-verifier.min.js"></script>
+<!--  Use this if installed from NPM -->
+<!--  <script src="../node_modules/@ubirch/ubirch-protocol-verifier/dist/ubirch-protocol-verifier.min.js"></script> -->
 <script>
     const pubKey = "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==";
     const upp = "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==";
@@ -101,6 +102,8 @@ This function verifies that the UPP was signed by the provided ECDSA Pubkey && t
 <p id="res"></p>
 
 <script src="../dist/ubirch-protocol-verifier.min.js"></script>
+<!--  Use this if installed from NPM -->
+<!--  <script src="../node_modules/@ubirch/ubirch-protocol-verifier/dist/ubirch-protocol-verifier.min.js"></script> -->
 <script>
     const uuid = '7af55a89-d9a0-4929-b5aa-1b1657b06a56';
     const pubKey = "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==";
@@ -139,8 +142,6 @@ against this list of pubkeys.
 
 This function verifies that the UPP was signed by the provided ECDSA Pubkey.
 
-
-
 #### Example
 
 ```html
@@ -155,6 +156,8 @@ This function verifies that the UPP was signed by the provided ECDSA Pubkey.
         <p>Validation:<span id="res"></span></p>
 
         <script src="../dist/ubirch-protocol-verifier.min.js"></script>
+        <!--  Use this if installed from NPM -->
+        <!--  <script src="../node_modules/@ubirch/ubirch-protocol-verifier/dist/ubirch-protocol-verifier.min.js"></script> -->
         <script>
             const stage = "prod";
             const uuid = '7af55a89-d9a0-4929-b5aa-1b1657b06a56';
@@ -182,6 +185,5 @@ const upp = "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163
 verify.verifyFromKeyService(stage, uuid, upp).then((res) => {
     console.log(res);
 });
-
 ```
 

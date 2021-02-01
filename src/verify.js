@@ -1,10 +1,28 @@
+/*
+ * Copyright (c) 2020 ubirch GmbH.
+ *
+ * ```
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ```
+ */
+
 "use strict";
 
 const {decode} = require("@msgpack/msgpack");
 const EC = require("elliptic").ec;
-const crypto = require("crypto")
+const crypto = require("crypto");
 const uuidParse = require('uuid');
-const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
+const Buffer = require('buffer/').Buffer; // note: the trailing slash is important!
 
 const getKey = (compressedKeyInBase64) => {
     const pubKeyBuffer = Buffer.from(compressedKeyInBase64, 'base64');
@@ -17,13 +35,13 @@ const getKey = (compressedKeyInBase64) => {
 
     const ec = new EC('p256');
     return ec.keyFromPublic(pubKeyXY);
-}
+};
 
 const uppLengthCheck = (decodedUPP) => {
     if(decodedUPP.length <= 4 || decodedUPP.length >= 7) {
         throw new Error("Invalid UPP");
     }
-}
+};
 
 const upp = (uppInBase64) => {
     const buff = Buffer.from(uppInBase64, 'base64');
@@ -35,7 +53,7 @@ const upp = (uppInBase64) => {
         bytes: buff,
         decoded: decode(buff)
     };
-}
+};
 
 const getSignedAndSignature = (upp) => {
 
@@ -56,7 +74,7 @@ const getSignedAndSignature = (upp) => {
         signaturePoints: signaturePoints
     };
 
-}
+};
 
 const billOfMaterials = (compressedKeyInBase64, uppInBase64) => {
     const pk = getKey(compressedKeyInBase64)
@@ -69,17 +87,17 @@ const billOfMaterials = (compressedKeyInBase64, uppInBase64) => {
         decoded: uppBom,
         sBom: sBom
     };
-}
+};
 
 const verify = (compressedKeyInBase64, uppInBase64) => {
     const bom = billOfMaterials(compressedKeyInBase64, uppInBase64);
     return bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints);
-}
+};
 
 const verifyWithUUID = (uuid, compressedKeyInBase64, uppInBase64) => {
     const bom = billOfMaterials(compressedKeyInBase64, uppInBase64);
     return bom.uuid === uuid && bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints);
-}
+};
 
 module.exports = {tools: {getKey, upp, getSignedAndSignature, billOfMaterials}, verify, verifyWithUUID};
 
