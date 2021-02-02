@@ -26,7 +26,8 @@ const Buffer = require('buffer/').Buffer; // note: the trailing slash is importa
 
 const ProtocolVersion = 2
 
-const PLAIN = (ProtocolVersion << 4) | 0x01
+// Commented out as it is currently not used
+// const PLAIN = (ProtocolVersion << 4) | 0x01
 const SIGNED = (ProtocolVersion << 4) | 0x02
 const CHAINED = (ProtocolVersion << 4) | 0x03
 

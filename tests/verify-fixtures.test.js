@@ -41,9 +41,9 @@ describe("Verification from fixtures", () => {
            const res = verify.verify(
                "kvdvWQ7NOT+HLDcrFqP/UZWy4QVcjfmmkfyzAgg8bitaK/FbHUPeqEji0UmCSlyPk5+4mEaEiZAHnJKOyqUZxA==",
                dataAsBase64
-           )
+           );
 
-           assert(res === true)
+           assert(res === true);
        });
 
        it('msgpack/v2.0-ecdsa-message-2.mpack should verify correctly',  () => {
@@ -54,9 +54,9 @@ describe("Verification from fixtures", () => {
            const res = verify.verify(
                "9vxNdELoMlz7BnbYQMW5P5pLIFwt/90lyCxXDYYMZArcSdxdTNnJZA+D3ZsCfeWOKfKYF1UAsntHpciGJHw5wA==",
                dataAsBase64
-           )
+           );
 
-           assert(res === true)
+           assert(res === true);
        });
 
    });
