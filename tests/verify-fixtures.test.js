@@ -32,8 +32,8 @@ const readFile = (file) => {
 
 describe("Verification from fixtures", () => {
 
-   describe("msgpack/v2.0-ecdsa-message-1.mpack", () => {
-       it('should verify correctly',  () => {
+   describe("verify", () => {
+       it('msgpack/v2.0-ecdsa-message-1.mpack should verify correctly',  () => {
 
            const data = readFile("./tests/fixtures/v2.0-ecdsa-message-1.mpack");
            const dataAsBase64 = Buffer.from(data).toString('base64');
@@ -45,22 +45,20 @@ describe("Verification from fixtures", () => {
 
            assert(res === true)
        });
+
+       it('msgpack/v2.0-ecdsa-message-2.mpack should verify correctly',  () => {
+
+           const data = readFile("./tests/fixtures/v2.0-ecdsa-message-2.mpack");
+           const dataAsBase64 = Buffer.from(data).toString('base64');
+
+           const res = verify.verify(
+               "9vxNdELoMlz7BnbYQMW5P5pLIFwt/90lyCxXDYYMZArcSdxdTNnJZA+D3ZsCfeWOKfKYF1UAsntHpciGJHw5wA==",
+               dataAsBase64
+           )
+
+           assert(res === true)
+       });
+
    });
-
-    describe("msgpack/v2.0-ecdsa-message-2.mpack", () => {
-        it('should verify correctly',  () => {
-
-            const data = readFile("./tests/fixtures/v2.0-ecdsa-message-2.mpack");
-            const dataAsBase64 = Buffer.from(data).toString('base64');
-
-            const res = verify.verify(
-                "9vxNdELoMlz7BnbYQMW5P5pLIFwt/90lyCxXDYYMZArcSdxdTNnJZA+D3ZsCfeWOKfKYF1UAsntHpciGJHw5wA==",
-                dataAsBase64
-            )
-
-            assert(res === true)
-        });
-    });
-
 
 });
