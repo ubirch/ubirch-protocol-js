@@ -102,11 +102,15 @@ const billOfMaterials = (compressedKeyInBase64, uppInBase64) => {
     const sBom = getSignedAndSignature(uppBom)
 
     return {
-        uuid: uuidParse.stringify(uppBom.decoded[1]),
+        uuid: getUUIDFromUpp(uppBom),
         pk: pk,
         decoded: uppBom,
         sBom: sBom
     };
+};
+
+const getUUIDFromUpp = (upp) => {
+  return uuidParse.stringify(upp.decoded[1]);
 };
 
 const verify = (compressedKeyInBase64, uppInBase64) => {
@@ -119,5 +123,5 @@ const verifyWithUUID = (uuid, compressedKeyInBase64, uppInBase64) => {
     return bom.uuid === uuid && bom.pk.verify(bom.sBom.signedHash, bom.sBom.signaturePoints);
 };
 
-module.exports = {tools: {getKey, upp, getSignedAndSignature, billOfMaterials}, verify, verifyWithUUID};
+module.exports = {tools: {getKey, upp, getSignedAndSignature, billOfMaterials, getUUIDFromUpp}, verify, verifyWithUUID};
 
