@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "test:mocha": "mocha tests",
-    "build": "webpack"
+    "build": "webpack",
+    "export": "npm run build && npm run publish"
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.3.0",
