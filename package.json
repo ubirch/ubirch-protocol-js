@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "test:mocha": "mocha tests",
-    "build": "webpack",
+    "build": "webpack && npm run typings",
     "export": "npm run build && npm run publish",
     "typings": "npx typescript src/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
