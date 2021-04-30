@@ -8,12 +8,14 @@
     "tests",
     "examples",
     "dist/ubirch-protocol-verifier.min.js",
+    "dist/*.d.ts",
     "webpack.config.js"
   ],
   "scripts": {
     "test:mocha": "mocha tests",
     "build": "webpack",
-    "export": "npm run build && npm run publish"
+    "export": "npm run build && npm run publish",
+    "typings": "npx typescript src/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.3.0",
