@@ -8,11 +8,14 @@
     "tests",
     "examples",
     "dist/ubirch-protocol-verifier.min.js",
+    "dist/*.d.ts",
     "webpack.config.js"
   ],
   "scripts": {
     "test:mocha": "mocha tests",
-    "build": "webpack"
+    "build": "webpack && npm run typings",
+    "export": "npm run build && npm run publish",
+    "typings": "tsc src/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist"
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.3.0",
@@ -28,6 +31,7 @@
   "author": "Carlos Sanchez",
   "license": "Apache-2.0",
   "devDependencies": {
+    "typescript": "^4.2.4",
     "webpack": "^5.17.0",
     "webpack-cli": "^4.4.0"
   },
