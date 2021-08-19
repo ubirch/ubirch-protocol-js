@@ -3,10 +3,10 @@
 This library offers basic functionality to support Ubirch Protocol Verification for ECDSA Keys. It has
 three fundamental functions: _verify_, _verify with UUID_ and _verify with Key service_.
 
-1. [Description](#description)
-1. [Install from NPM](#installing-from-npm)
-2. [Building from Sources](#building-from-sources)
-3. [Examples](#examples)
+1. [Interface Description](#interface-description)
+2. [Install from NPM](#installing-from-npm)
+3. [Building from Sources](#building-from-sources)
+4. [Examples](#examples)
     1. [Verify](#verify)
     2. [Verify With UUID Check](#verifywithuuid)
     3. [Verify With Key Service](#verifyfromkeyservice)
