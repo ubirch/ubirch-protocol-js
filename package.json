@@ -1,6 +1,6 @@
 {
   "name": "@ubirch/ubirch-protocol-verifier",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A Ubirch Protocol Verifier for ECDSA keys",
   "main": "./src/upp.js",
   "files": [
