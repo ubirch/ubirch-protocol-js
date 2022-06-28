@@ -31,7 +31,7 @@ const getKey = (keyInBase64) => {
   } else if (pubKeyBuffer.length === 32) {
     key = EDDSA.getKey(keyInBase64);
   } else {
-    throw new Error('Invalid ECDSA Key Compressed');
+    throw new Error('Invalid ECDSA/EDDSA Key Size');
   }
 
   return key;
