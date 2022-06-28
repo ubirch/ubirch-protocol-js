@@ -57,8 +57,14 @@ const upp = (uppInBase64) => {
 
   return {
     bytes: buff,
-    decoded: decode(buff)
+    decoded: parts
   };
+};
+
+const uppSignedLengthCheck = (signed) => {
+  if (signed.length === 0) {
+    throw new Error('Empty signed data.');
+  }
 };
 
 const getSignedAndSignature = (upp) => {
@@ -66,6 +72,8 @@ const getSignedAndSignature = (upp) => {
   uppVersionCheck(upp.decoded);
 
   const signed = upp.bytes.subarray(0, upp.bytes.length - 66);
+  uppSignedLengthCheck(signed);
+
   const signedSHA256 = crypto.createHash('sha256').update(signed).digest();
   const signedSHA512 = crypto.createHash('sha512').update(signed).digest();
   const signatureBuffer = upp.decoded[upp.decoded.length - 1];

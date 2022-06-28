@@ -12,5 +12,9 @@ module.exports = {
   },
   rules: {
     semi: ["error", "always"]
+  },
+  globals: {
+    "it": "readonly",
+    "describe": "readonly"
   }
 }
