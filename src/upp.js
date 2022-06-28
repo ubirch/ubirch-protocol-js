@@ -16,9 +16,20 @@
  * ```
  */
 
-"use strict";
+'use strict';
 
-const verify = require("./verify");
-const {verifyFromKeyService} = require("./verify-with-key-service");
+const { verify, verifyWithUUID } = require('./verify');
+const { upp, getSignedAndSignature, billOfMaterials, getUUIDFromUpp } = require('./upp-parts');
+const { verifyFromKeyService } = require('./verify-with-key-service');
 
-module.exports = {verify, verifyFromKeyService};
+module.exports = {
+  verify,
+  verifyWithUUID,
+  verifyFromKeyService,
+  tools: {
+    upp,
+    getSignedAndSignature,
+    billOfMaterials,
+    getUUIDFromUpp
+  }
+};
