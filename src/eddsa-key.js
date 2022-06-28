@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 ubirch GmbH.
+ * Copyright (c) 2022 ubirch GmbH.
  *
  * ```
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,18 +18,18 @@
 
 "use strict";
 
-const {verify, verifyWithUUID} = require("./verify");
-const {upp, getSignedAndSignature, billOfMaterials, getUUIDFromUpp} = require('./upp-parts')
-const {verifyFromKeyService} = require("./verify-with-key-service");
+const EdDSA = require('elliptic').eddsa;
 
-module.exports = {
-    verify,
-    verifyWithUUID,
-    verifyFromKeyService,
-    tools: {
-        upp,
-        getSignedAndSignature,
-        billOfMaterials,
-        getUUIDFromUpp
+const getKey = (keyInBase64) => {
+    const pubKeyBuffer = Buffer.from(keyInBase64, 'base64');
+
+    if (pubKeyBuffer.length !== 32) {
+        throw new Error("Invalid EdDSA Key Size");
     }
+
+    //only this curve is supported
+    const ec = new EdDSA('ed25519');
+    return ec.keyFromPublic([...pubKeyBuffer]);
 };
+
+module.exports = {getKey};

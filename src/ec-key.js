@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 ubirch GmbH.
+ * Copyright (c) 2022 ubirch GmbH.
  *
  * ```
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,18 +18,21 @@
 
 "use strict";
 
-const {verify, verifyWithUUID} = require("./verify");
-const {upp, getSignedAndSignature, billOfMaterials, getUUIDFromUpp} = require('./upp-parts')
-const {verifyFromKeyService} = require("./verify-with-key-service");
+const EC = require("elliptic").ec;
+const Buffer = require('buffer/').Buffer; // note: the trailing slash is important!
 
-module.exports = {
-    verify,
-    verifyWithUUID,
-    verifyFromKeyService,
-    tools: {
-        upp,
-        getSignedAndSignature,
-        billOfMaterials,
-        getUUIDFromUpp
+const getKey = (compressedKeyInBase64) => {
+    const pubKeyBuffer = Buffer.from(compressedKeyInBase64, 'base64');
+
+    if (pubKeyBuffer.length !== 64) {
+        throw new Error("Invalid ECDSA Key Compressed");
     }
+    // We add 0x04 to make it compressed compatible
+    const pubKeyXY = Buffer.concat([Buffer.from([0x04]), pubKeyBuffer]);
+
+    const ec = new EC('p256');
+    return ec.keyFromPublic(pubKeyXY);
 };
+
+module.exports = {getKey};
+

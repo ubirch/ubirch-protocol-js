@@ -23,7 +23,7 @@ const fetch = require('node-fetch');
 
 const getKeys = async (stage, uuid) => {
 
-    if(uuid === ""){
+    if (uuid === "") {
         throw new Error("UUID can't be empty.")
     }
 
@@ -42,7 +42,7 @@ const verifyFromKeyService = async (stage, uuid, uupBase64) => {
         .map(x => verify.verifyWithUUID(uuid, x, uupBase64))
         .reduce((a, b) => a && b);
 
-    if(vers.length <= 0){
+    if (vers.length <= 0) {
         return false;
     }
 
