@@ -16,106 +16,92 @@
  * ```
  */
 
-"use strict";
+'use strict';
 
 const assert = require('assert');
-const verify = require("../src/upp");
+const verify = require('../src/upp');
 
-describe("Verification", () => {
+describe('Verification', () => {
+  describe('upp', () => {
+    it('should get details from upp', () => {
+      const uppHash = 'liPEEM+T+e6L9EzBtxV79B2I5hbEQLKeDjxuX6RTp6/kKnsJR+cd3exsAqA/8oJXdYjzVvfWG3I3QXeqzTdAgJj8No6sL0ltaSGWjzEwBAy+fx+ZdCkAxCB8OqIKiOGsBRJoM8hSLnaawKFfIHdVFYVYBP5XRaEWJMRAPYfV3BJ4goY6HUxSNcB6Wu48Y+5iRqsuRdUT4dlidzaD9bjub7DxN75sXzf5uOgn26lZ1asuPsfKPWaYuciXTQ==';
+      const upp = verify.tools.upp(uppHash);
+      assert(upp !== undefined);
+      const uuid = verify.tools.getUUIDFromUpp(upp);
+      assert(uuid !== undefined);
+      assert(uuid === 'cf93f9ee-8bf4-4cc1-b715-7bf41d88e616');
+    });
+  });
 
-    describe("upp", () => {
-        it('should get details from upp', () => {
-            const uppHash = "liPEEM+T+e6L9EzBtxV79B2I5hbEQLKeDjxuX6RTp6/kKnsJR+cd3exsAqA/8oJXdYjzVvfWG3I3QXeqzTdAgJj8No6sL0ltaSGWjzEwBAy+fx+ZdCkAxCB8OqIKiOGsBRJoM8hSLnaawKFfIHdVFYVYBP5XRaEWJMRAPYfV3BJ4goY6HUxSNcB6Wu48Y+5iRqsuRdUT4dlidzaD9bjub7DxN75sXzf5uOgn26lZ1asuPsfKPWaYuciXTQ==";
-            const upp = verify.tools.upp(uppHash);
-            assert(upp !== undefined);
-            const uuid = verify.tools.getUUIDFromUpp(upp);
-            assert(uuid !== undefined);
-            assert(uuid === "cf93f9ee-8bf4-4cc1-b715-7bf41d88e616");
-        });
+  describe('verify', () => {
+    describe('ec', () => {
+      it('should verify correctly', () => {
+        const res = verify.verify(
+          'GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==',
+          'liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==');
+        assert(res === true);
+      });
+
+      it('should fail when upp signed with other key', () => {
+        const res = verify.verify(
+          '4KJrbh6o3zWu/4jZpTTHdR+tkHQLIpWoHYBrM/Z7vG96qfn0ovmNSCWPbBDJE5qv/BwzmpL1rhvmAoGpUrOV8A==',
+          'liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==');
+        assert(res === false);
+      });
     });
 
-    describe("verify", () => {
+    describe('ed25519', () => {
+      it('should verify correctly', () => {
+        const res = verify.verify(
+          '1cUiOaf2ULj4nEYd6W1t+RvYLUx+GQfqHnt7hnbBAek=',
+          'lSLEEMPln+7ECUq3mq6xnmL0r5sAxCCzns3jSfHQrt6sQA62/GD6Dv2cYyINCxzAU/cT3UOZa8RAMkNE2PGYIw63/lmbLNpAE/OIAO2WrjNQXqt9mszz0IcdGwZHocCyCCzj7LpP9WcRPIN1LdvS/tsLBWWgEsXFAA==');
+        assert(res === true);
+      });
 
-        describe("ec", () => {
+      it('should fail when upp signed with other key', () => {
+        const res = verify.verify(
+          '9+qK22p5hGIsogzxIm1rM3lWCnHGDonWwszhjTkUsBM=',
+          'lSLEEMPln+7ECUq3mq6xnmL0r5sAxCCzns3jSfHQrt6sQA62/GD6Dv2cYyINCxzAU/cT3UOZa8RAMkNE2PGYIw63/lmbLNpAE/OIAO2WrjNQXqt9mszz0IcdGwZHocCyCCzj7LpP9WcRPIN1LdvS/tsLBWWgEsXFAA==');
+        assert(res === false);
+      });
+    });
+  });
 
-            it('should verify correctly', () => {
-                const res = verify.verify(
-                    "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==",
-                    "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==")
-                assert(res === true);
-            });
+  describe('verifyWithUUID', () => {
+    describe('ec', () => {
+      it('should verifyWithUUID correctly', () => {
+        const res = verify.verifyWithUUID(
+          '7af55a89-d9a0-4929-b5aa-1b1657b06a56',
+          'GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==',
+          'liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==');
+        assert(res === true);
+      });
 
-            it('should fail when upp signed with other key', () => {
-                const res = verify.verify(
-                    "4KJrbh6o3zWu/4jZpTTHdR+tkHQLIpWoHYBrM/Z7vG96qfn0ovmNSCWPbBDJE5qv/BwzmpL1rhvmAoGpUrOV8A==",
-                    "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==")
-                assert(res === false);
-            });
-
-        });
-
-        describe("ed25519", () => {
-
-            it('should verify correctly', () => {
-                const res = verify.verify(
-                    "1cUiOaf2ULj4nEYd6W1t+RvYLUx+GQfqHnt7hnbBAek=",
-                    "lSLEEMPln+7ECUq3mq6xnmL0r5sAxCCzns3jSfHQrt6sQA62/GD6Dv2cYyINCxzAU/cT3UOZa8RAMkNE2PGYIw63/lmbLNpAE/OIAO2WrjNQXqt9mszz0IcdGwZHocCyCCzj7LpP9WcRPIN1LdvS/tsLBWWgEsXFAA==")
-                assert(res === true);
-            });
-
-            it('should fail when upp signed with other key', () => {
-                const res = verify.verify(
-                    "9+qK22p5hGIsogzxIm1rM3lWCnHGDonWwszhjTkUsBM=",
-                    "lSLEEMPln+7ECUq3mq6xnmL0r5sAxCCzns3jSfHQrt6sQA62/GD6Dv2cYyINCxzAU/cT3UOZa8RAMkNE2PGYIw63/lmbLNpAE/OIAO2WrjNQXqt9mszz0IcdGwZHocCyCCzj7LpP9WcRPIN1LdvS/tsLBWWgEsXFAA==")
-                assert(res === false);
-            });
-
-        });
-
+      it('should verifyWithUUID with false when UUID do not match', () => {
+        const res = verify.verifyWithUUID(
+          '7af55a89-d9a0-4929-b5aa-1b1657b00a56',
+          'GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==',
+          'liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==');
+        assert(res === false);
+      });
     });
 
-    describe("verifyWithUUID", () => {
+    describe('ed25519', () => {
+      it('should verify correctly', () => {
+        const res = verify.verifyWithUUID(
+          'c3e59fee-c409-4ab7-9aae-b19e62f4af9b',
+          '1cUiOaf2ULj4nEYd6W1t+RvYLUx+GQfqHnt7hnbBAek=',
+          'lSLEEMPln+7ECUq3mq6xnmL0r5sAxCCzns3jSfHQrt6sQA62/GD6Dv2cYyINCxzAU/cT3UOZa8RAMkNE2PGYIw63/lmbLNpAE/OIAO2WrjNQXqt9mszz0IcdGwZHocCyCCzj7LpP9WcRPIN1LdvS/tsLBWWgEsXFAA==');
+        assert(res === true);
+      });
 
-        describe("ec", () => {
-
-            it('should verifyWithUUID correctly', () => {
-                const res = verify.verifyWithUUID(
-                    "7af55a89-d9a0-4929-b5aa-1b1657b06a56",
-                    "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==",
-                    "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==")
-                assert(res === true);
-            });
-
-            it('should verifyWithUUID with false when UUID do not match', () => {
-                const res = verify.verifyWithUUID(
-                    "7af55a89-d9a0-4929-b5aa-1b1657b00a56",
-                    "GdbPJkVS15N0SIMQKRAuhRglL2OTlr/Q6TPDMqAEFWoazN/avO5/KO0iSjOKrUa7qWgiEB8Zw/QMzn8y1XB51Q==",
-                    "liPEEHr1WonZoEkptaobFlewalbEQCI+PfqAymyGmdyszoDVDvQwTTs9aSLfDwFr163jyiXpKfpaddpkR6g7DtfaCz/4IJyRLostPO2PWsgwigqW9G8AxCB01pV0Aw5ngFA9RXBpJ8nu+dT8chghOj1goS4O38ZWisRATv0reU41YtXKJp6lpXh5Jt5buq4n17sBbVm3GLyiAeTmSGuAEQcxbE7j7UhOQLg8uR1Oj/Ql2tbKmhRCzR5jWg==")
-                assert(res === false);
-            });
-
-        });
-
-        describe("ed25519", () => {
-
-            it('should verify correctly', () => {
-                const res = verify.verifyWithUUID(
-                    "c3e59fee-c409-4ab7-9aae-b19e62f4af9b",
-                    "1cUiOaf2ULj4nEYd6W1t+RvYLUx+GQfqHnt7hnbBAek=",
-                    "lSLEEMPln+7ECUq3mq6xnmL0r5sAxCCzns3jSfHQrt6sQA62/GD6Dv2cYyINCxzAU/cT3UOZa8RAMkNE2PGYIw63/lmbLNpAE/OIAO2WrjNQXqt9mszz0IcdGwZHocCyCCzj7LpP9WcRPIN1LdvS/tsLBWWgEsXFAA==")
-                assert(res === true);
-            });
-
-            it('should fail when upp signed with other key', () => {
-                const res = verify.verifyWithUUID(
-                    "c3e59fee-c409-4ab7-9aae-b19e62f4af9b",
-                    "9+qK22p5hGIsogzxIm1rM3lWCnHGDonWwszhjTkUsBM=",
-                    "lSLEEMPln+7ECUq3mq6xnmL0r5sAxCCzns3jSfHQrt6sQA62/GD6Dv2cYyINCxzAU/cT3UOZa8RAMkNE2PGYIw63/lmbLNpAE/OIAO2WrjNQXqt9mszz0IcdGwZHocCyCCzj7LpP9WcRPIN1LdvS/tsLBWWgEsXFAA==")
-                assert(res === false);
-            });
-
-        });
-
+      it('should fail when upp signed with other key', () => {
+        const res = verify.verifyWithUUID(
+          'c3e59fee-c409-4ab7-9aae-b19e62f4af9b',
+          '9+qK22p5hGIsogzxIm1rM3lWCnHGDonWwszhjTkUsBM=',
+          'lSLEEMPln+7ECUq3mq6xnmL0r5sAxCCzns3jSfHQrt6sQA62/GD6Dv2cYyINCxzAU/cT3UOZa8RAMkNE2PGYIw63/lmbLNpAE/OIAO2WrjNQXqt9mszz0IcdGwZHocCyCCzj7LpP9WcRPIN1LdvS/tsLBWWgEsXFAA==');
+        assert(res === false);
+      });
     });
-
+  });
 });

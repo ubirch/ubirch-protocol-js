@@ -16,34 +16,33 @@
  * ```
  */
 
-"use strict";
+'use strict';
 
 const Buffer = require('buffer/').Buffer; // note: the trailing slash is important!
-const EC = require('./ec-key')
-const EDDSA = require('./eddsa-key')
+const EC = require('./ec-key');
+const EDDSA = require('./eddsa-key');
 
 const getKey = (keyInBase64) => {
-    const pubKeyBuffer = Buffer.from(keyInBase64, 'base64');
+  const pubKeyBuffer = Buffer.from(keyInBase64, 'base64');
 
-    let key;
-    if (pubKeyBuffer.length === 64) {
-        key = EC.getKey(keyInBase64)
-    } else if (pubKeyBuffer.length === 32) {
-        key = EDDSA.getKey(keyInBase64)
-    } else {
-        throw new Error("Invalid ECDSA Key Compressed");
-    }
+  let key;
+  if (pubKeyBuffer.length === 64) {
+    key = EC.getKey(keyInBase64);
+  } else if (pubKeyBuffer.length === 32) {
+    key = EDDSA.getKey(keyInBase64);
+  } else {
+    throw new Error('Invalid ECDSA Key Compressed');
+  }
 
-    return key;
+  return key;
 };
 
 const isEC = (materializedKey) => {
-    return materializedKey.ec !== undefined
-}
+  return materializedKey.ec !== undefined;
+};
 
 const isEDDSA = (materializedKey) => {
-    return materializedKey.eddsa !== undefined
-}
+  return materializedKey.eddsa !== undefined;
+};
 
-module.exports = {getKey, isEC, isEDDSA};
-
+module.exports = { getKey, isEC, isEDDSA };

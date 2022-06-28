@@ -16,20 +16,20 @@
  * ```
  */
 
-"use strict";
+'use strict';
 
 const EdDSA = require('elliptic').eddsa;
 
 const getKey = (keyInBase64) => {
-    const pubKeyBuffer = Buffer.from(keyInBase64, 'base64');
+  const pubKeyBuffer = Buffer.from(keyInBase64, 'base64');
 
-    if (pubKeyBuffer.length !== 32) {
-        throw new Error("Invalid EdDSA Key Size");
-    }
+  if (pubKeyBuffer.length !== 32) {
+    throw new Error('Invalid EdDSA Key Size');
+  }
 
-    //only this curve is supported
-    const ec = new EdDSA('ed25519');
-    return ec.keyFromPublic([...pubKeyBuffer]);
+  // only this curve is supported
+  const ec = new EdDSA('ed25519');
+  return ec.keyFromPublic([...pubKeyBuffer]);
 };
 
-module.exports = {getKey};
+module.exports = { getKey };

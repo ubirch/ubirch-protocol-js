@@ -16,49 +16,60 @@
  * ```
  */
 
-"use strict";
+'use strict';
 
 const assert = require('assert');
-const verify = require("../src/verify");
-const fs = require('fs')
+const verify = require('../src/verify');
+const fs = require('fs');
 
 const readFile = (file) => {
-    try {
-        return fs.readFileSync(file);
-    } catch (err) {
-        console.error(err)
-    }
-}
+  try {
+    return fs.readFileSync(file);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-describe("Verification from fixtures", () => {
+describe('Verification from fixtures', () => {
+  describe('verify', () => {
+    describe('ec', () => {
+      it('msgpack/v2.0-ecdsa-message-1.mpack should verify correctly', () => {
+        const data = readFile('./tests/fixtures/v2.0-ecdsa-message-1.mpack');
+        const dataAsBase64 = Buffer.from(data).toString('base64');
 
-    describe("verify", () => {
-        it('msgpack/v2.0-ecdsa-message-1.mpack should verify correctly', () => {
+        const res = verify.verify(
+          'kvdvWQ7NOT+HLDcrFqP/UZWy4QVcjfmmkfyzAgg8bitaK/FbHUPeqEji0UmCSlyPk5+4mEaEiZAHnJKOyqUZxA==',
+          dataAsBase64
+        );
 
-            const data = readFile("./tests/fixtures/v2.0-ecdsa-message-1.mpack");
-            const dataAsBase64 = Buffer.from(data).toString('base64');
+        assert(res === true);
+      });
 
-            const res = verify.verify(
-                "kvdvWQ7NOT+HLDcrFqP/UZWy4QVcjfmmkfyzAgg8bitaK/FbHUPeqEji0UmCSlyPk5+4mEaEiZAHnJKOyqUZxA==",
-                dataAsBase64
-            );
+      it('msgpack/v2.0-ecdsa-message-2.mpack should verify correctly', () => {
+        const data = readFile('./tests/fixtures/v2.0-ecdsa-message-2.mpack');
+        const dataAsBase64 = Buffer.from(data).toString('base64');
 
-            assert(res === true);
-        });
+        const res = verify.verify(
+          '9vxNdELoMlz7BnbYQMW5P5pLIFwt/90lyCxXDYYMZArcSdxdTNnJZA+D3ZsCfeWOKfKYF1UAsntHpciGJHw5wA==',
+          dataAsBase64
+        );
 
-        it('msgpack/v2.0-ecdsa-message-2.mpack should verify correctly', () => {
-
-            const data = readFile("./tests/fixtures/v2.0-ecdsa-message-2.mpack");
-            const dataAsBase64 = Buffer.from(data).toString('base64');
-
-            const res = verify.verify(
-                "9vxNdELoMlz7BnbYQMW5P5pLIFwt/90lyCxXDYYMZArcSdxdTNnJZA+D3ZsCfeWOKfKYF1UAsntHpciGJHw5wA==",
-                dataAsBase64
-            );
-
-            assert(res === true);
-        });
-
+        assert(res === true);
+      });
     });
 
+    describe('ed25519', () => {
+      it('msgpack/v2.0-eddsa-message-1.mpack should verify correctly', () => {
+        const data = readFile('./tests/fixtures/v2.0-eddsa-message-1.mpack');
+        const dataAsBase64 = Buffer.from(data).toString('base64');
+
+        const res = verify.verify(
+          'QDISaMmQ/tqOw6igSH4y3X7ZzVxwjHI+MnVwuH4RUtg=',
+          dataAsBase64
+        );
+
+        assert(res === true);
+      });
+    });
+  });
 });

@@ -16,32 +16,32 @@
  * ```
  */
 
-"use strict";
+'use strict';
 
-const uppParts = require('./upp-parts')
-const {isEC, isEDDSA} = require('./key')
+const uppParts = require('./upp-parts');
+const { isEC, isEDDSA } = require('./key');
 
 const verifyBase = (billOfMaterials) => {
-    let data
-    let signature
-    if (isEC(billOfMaterials.pk)) {
-        data = billOfMaterials.sBom.signedSHA256
-        signature = billOfMaterials.sBom.signaturePoints
-    } else if (isEDDSA(billOfMaterials.pk)) {
-        data = [...billOfMaterials.sBom.signedSHA512]
-        signature = [...billOfMaterials.sBom.signature]
-    }
-    return billOfMaterials.pk.verify(data, signature);
+  let data;
+  let signature;
+  if (isEC(billOfMaterials.pk)) {
+    data = billOfMaterials.sBom.signedSHA256;
+    signature = billOfMaterials.sBom.signaturePoints;
+  } else if (isEDDSA(billOfMaterials.pk)) {
+    data = [...billOfMaterials.sBom.signedSHA512];
+    signature = [...billOfMaterials.sBom.signature];
+  }
+  return billOfMaterials.pk.verify(data, signature);
 };
 
 const verify = (compressedKeyInBase64, uppInBase64) => {
-    const bom = uppParts.billOfMaterials(compressedKeyInBase64, uppInBase64);
-    return verifyBase(bom);
+  const bom = uppParts.billOfMaterials(compressedKeyInBase64, uppInBase64);
+  return verifyBase(bom);
 };
 
 const verifyWithUUID = (uuid, compressedKeyInBase64, uppInBase64) => {
-    const bom = uppParts.billOfMaterials(compressedKeyInBase64, uppInBase64);
-    return bom.uuid === uuid && verifyBase(bom)
+  const bom = uppParts.billOfMaterials(compressedKeyInBase64, uppInBase64);
+  return bom.uuid === uuid && verifyBase(bom);
 };
 
-module.exports = {verify, verifyWithUUID};
+module.exports = { verify, verifyWithUUID };
