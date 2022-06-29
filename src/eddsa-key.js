@@ -19,6 +19,7 @@
 'use strict';
 
 const EdDSA = require('elliptic').eddsa;
+const Buffer = require('buffer/').Buffer; // note: the trailing slash is important!
 
 const getKey = (keyInBase64) => {
   const pubKeyBuffer = Buffer.from(keyInBase64, 'base64');
