@@ -21,6 +21,7 @@
 const assert = require('assert');
 const verify = require('../src/verify');
 const fs = require('fs');
+const Buffer = require('buffer/').Buffer; // note: the trailing slash is important!
 
 const readFile = (file) => {
   try {
