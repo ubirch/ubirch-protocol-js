@@ -18,9 +18,12 @@
 
 'use strict';
 
-const { decode } = require('@msgpack/msgpack');
+const { decode, encode } = require('@msgpack/msgpack');
 const crypto = require('crypto');
 const uuidParse = require('uuid');
+const zlib = require('zlib');
+const base45 = require('base45');
+
 const Buffer = require('buffer/').Buffer; // note: the trailing slash is important!
 const { getKey } = require('./key');
 
@@ -30,6 +33,22 @@ const ProtocolVersion = 2;
 // const PLAIN = (ProtocolVersion << 4) | 0x01
 const SIGNED = (ProtocolVersion << 4) | 0x02;
 const CHAINED = (ProtocolVersion << 4) | 0x03;
+
+const UPP_TYPE = {
+  CHAINED: 'CHAINED',
+    SIGNED: 'SIGNED',
+//  PLAIN: 'PLAIN'
+}
+
+const UPP_TYPE_BYTE = {
+  CHAINED: 0x00,
+  SIGNED: 0xEE
+}
+
+const UPP_PREFIX = {
+  CHAINED: '',
+  SIGNED:  "C01:"
+}
 
 const uppLengthCheck = (decodedUPP) => {
   if (decodedUPP.length <= 4 || decodedUPP.length >= 7) {
@@ -108,4 +127,102 @@ const getUUIDFromUpp = (upp) => {
   return uuidParse.stringify(upp.decoded[1]);
 };
 
-module.exports = { upp, getSignedAndSignature, billOfMaterials, getUUIDFromUpp };
+const createMsgPackPayloadFromJSON = (jsonPayload) => {
+    const encoded = encode(jsonPayload);
+    const buffer = Buffer.from(encoded.buffer, encoded.byteOffset, encoded.byteLength);
+    return buffer;
+  }
+
+const replaceHashByMsgPackInUpp = (hashUpp, msgPackPayload, uppType = UPP_TYPE.SIGNED) => {
+  let unpacked_upp = decode(Buffer.from(hashUpp, 'base64'));
+  const uppLength = unpacked_upp.length;
+
+  unpacked_upp[uppLength - 2] = msgPackPayload;
+  unpacked_upp[uppLength - 3] = UPP_TYPE_BYTE[uppType];
+
+  return encode(unpacked_upp);
+}
+
+/**
+ * C01:BASE45_STRING(COMPRESS_ZLIB(NEW UPP))
+ * @param msgPackUpp: UInt8Array
+ * @param uppType: SIGNED (default) (, CHAINED, PLAIN - not yet implemented)
+ * @returns {string} signed UPP
+ */
+const packSignedUpp = (msgPackUpp, uppType = UPP_TYPE.SIGNED) => {
+  const buf = Buffer.from(msgPackUpp);
+  const zlibbed_upp = zlib.deflateSync(buf);
+
+  const base45ed_upp = base45.encode(zlibbed_upp);
+
+  return UPP_PREFIX[uppType] + base45ed_upp;
+}
+
+const getHashedPayload = (payload) => {
+  return crypto.createHash('sha256').update(payload).digest('base64');
+}
+
+const unpackBase64String = (uppStr) => {
+  return Buffer.from(uppStr, 'base64');
+}
+
+const uppHasCorrectTypePrefix = (upp, uppType) => {
+  try {
+    return upp && upp.startsWith(UPP_PREFIX[uppType]);
+  } catch (e) {
+    return false;
+  }
+}
+
+const unpackSignedUpp = (packedSignedUpp) => {
+
+  if (! uppHasCorrectTypePrefix(packedSignedUpp, UPP_TYPE.SIGNED)) {
+    throw new Error("VERIFICATION_FAILED_WRONG_TYPE_PREFIX");
+  }
+
+  const upp_withoutPrefix = packedSignedUpp.replace(new RegExp("^" + UPP_PREFIX[UPP_TYPE.SIGNED]), '');
+
+  const unBase45ed_upp = base45.decode(upp_withoutPrefix);
+
+  const unzipped_msgpacked_upp =  zlib.inflateSync(unBase45ed_upp);
+
+  const unpackedUpp = decode(unzipped_msgpacked_upp);
+
+  return unpackedUpp;
+}
+
+function checkUppType(unpackedUpp, uppType) {
+  try {
+    const len = unpackedUpp.length;
+    const typeOfUPP = unpackedUpp[len-3];
+    return typeOfUPP === UPP_TYPE_BYTE[uppType];
+  } catch (e) {
+    return false;
+  }
+}
+
+
+function getMsgPackPayloadFromUpp(unpackedUpp) {
+  const len = unpackedUpp.length;
+  return unpackedUpp[len - 2];
+}
+
+function getJSONFromMsgPackPayload(msgPackPayload) {
+  return decode(msgPackPayload);
+}
+
+module.exports = {
+  upp,
+  UPP_TYPE,
+  getSignedAndSignature,
+  billOfMaterials,
+  getUUIDFromUpp,
+  createMsgPackPayloadFromJSON,
+  getHashedPayload,
+  replaceHashByMsgPackInUpp,
+  packSignedUpp,
+  unpackBase64String,
+  unpackSignedUpp,
+  getMsgPackPayloadFromUpp,
+  getJSONFromMsgPackPayload
+};

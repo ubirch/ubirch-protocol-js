@@ -19,17 +19,39 @@
 'use strict';
 
 const { verify, verifyWithUUID } = require('./verify');
-const { upp, getSignedAndSignature, billOfMaterials, getUUIDFromUpp } = require('./upp-parts');
+const {
+  upp,
+  UPP_TYPE,
+  getSignedAndSignature,
+  billOfMaterials,
+  getUUIDFromUpp,
+  createMsgPackPayloadFromJSON,
+  getHashedPayload,
+  replaceHashByMsgPackInUpp,
+  packSignedUpp,
+  unpackBase64String,
+  unpackSignedUpp,
+  getMsgPackPayloadFromUpp,
+  getJSONFromMsgPackPayload } = require('./upp-parts');
 const { verifyFromKeyService } = require('./verify-with-key-service');
 
 module.exports = {
   verify,
   verifyWithUUID,
   verifyFromKeyService,
+  UPP_TYPE,
   tools: {
     upp,
     getSignedAndSignature,
     billOfMaterials,
-    getUUIDFromUpp
+    getUUIDFromUpp,
+    createMsgPackPayloadFromJSON,
+    getHashedPayload,
+    replaceHashByMsgPackInUpp,
+    packSignedUpp,
+    unpackBase64String,
+    unpackSignedUpp,
+    getMsgPackPayloadFromUpp,
+    getJSONFromMsgPackPayload
   }
 };

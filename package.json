@@ -1,6 +1,6 @@
 {
   "name": "@ubirch/ubirch-protocol-verifier",
-  "version": "0.0.8",
+  "version": "0.1.1",
   "description": "A Ubirch Protocol Verifier for ECDSA keys",
   "main": "./src/upp.js",
   "files": [
@@ -15,10 +15,15 @@
     "test:mocha": "mocha tests",
     "build": "webpack && npm run typings",
     "export": "npm run build && npm publish --access public",
-    "typings": "tsc src/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist"
+    "typings": "tsc src/*.js --declaration --allowJs --emitDeclarationOnly --outDir dist",
+    "export:beta": "npm run build && npm publish --access public --tag beta"
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.3.0",
+    "@types/express-serve-static-core": "^4.17.30",
+    "assert": "^2.0.0",
+    "base45": "^2.0.1",
+    "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "elliptic": "^6.5.3",

@@ -9,7 +9,10 @@ module.exports = function(env){
             fallback: {
                 "crypto": require.resolve("crypto-browserify"),
                 "buffer": require.resolve("buffer/"),
-                "stream": require.resolve("stream-browserify")
+                "stream": require.resolve("stream-browserify"),
+                "zlib": require.resolve('browserify-zlib'),
+                "assert": require.resolve("assert/"),
+                "util": require.resolve("util/")
             }
         },
         output: {
